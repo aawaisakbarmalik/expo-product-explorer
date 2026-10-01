@@ -1,10 +1,15 @@
 import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { memo } from 'react';
 
 const PRODUCTS = [
   { id: '1', name: 'Laptop', price: '$900' },
   { id: '2', name: 'Headphones', price: '$80' },
   { id: '3', name: 'Keyboard', price: '$45' },
 ];
+
+const ProductRow = memo(function ProductRow({ product }: { product: (typeof PRODUCTS)[number] }) {
+  return <Text style={styles.item}>{product.name} – {product.price}</Text>;
+});
 
 export default function HomeScreen() {
   return (
@@ -13,9 +18,7 @@ export default function HomeScreen() {
       <FlatList
         data={PRODUCTS}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Text style={styles.item}>{item.name} – {item.price}</Text>
-        )}
+        renderItem={({ item }) => <ProductRow product={item} />}
       />
     </View>
   );
